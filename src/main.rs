@@ -2,6 +2,7 @@ use std::io;
 use std::process;
 use std::ascii;
 use sha2::{Sha512, Digest};
+use std::fs;
 use std::fs::File;
 use std::io::{BufReader, Read};
 use std::path::Path;
@@ -32,8 +33,8 @@ fn main() {
     match sha512_hash(path) {
         Ok(hash) => println!("SHA512 Hash: {hash}"),
         Err(e) => eprintln!("Error: {e}"),
-    } */
-    
+    } 
+    */
 
 
     println!("A) Collect New Baseline?");
@@ -52,19 +53,71 @@ fn main() {
     let input = input.to_ascii_uppercase(); 
 
     if input == "A" {
-        println!("Collect baseline. Input folder path");
+
+        println!("Collect baseline. Input folder path containing the files to test:");
         //Have user input the path of folder with the files to test
+        //Testing path : C:\Users\Morrighan\Desktop\FIM Files\Files
+
         let mut FileLocation = String::new();
 
-        io:stdin()
+        io::stdin()
             .read_line(&mut FileLocation)
             .expect("Failed to readline");
+        
+        let FileLocation = FileLocation.trim();
 
-        println!({FileLocatoin});
+        
+        let path = Path::new(FileLocation);
+        
+        
+        //Check if path provided is a directory
+        if path.is_dir() {
 
+            match fs::read_dir(path){
 
+                Ok(entries) => {
+
+                    for entry in entries {
+
+                        match entry {
+
+                            Ok(entry) => {
+
+                                //Prints full paths of files within the folder
+                                //println!("{}",entry.path().display());
+
+                                let filepath = entry.path();
+
+                                println!("File path: {} ", filepath.display());
+                                
+                                match sha512_hash(&filepath) {
+                                    Ok(hash) => println!("SHA512 Hash: {hash}"),
+                                    Err(e) => eprintln!("Error: {e}"),
+                                } 
+                                
+                            }
+                            Err(e) => {
+                                eprintln!("Error reading entry: {}", e);
+                            }
+
+                        }
+
+                    }
+
+                }
+                Err(e) => {
+                    eprintln!("Error reading entry: {}", e);
+                }
+                
+            }
+
+        } else  {
+            eprint!("error");
+        }
 
     }
+
+    
     else if input == "B" {
         println!("Monitor");
     }
