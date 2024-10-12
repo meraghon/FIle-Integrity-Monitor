@@ -28,13 +28,13 @@ fn sha512_hash(path: &Path) -> Result<String, io::Error> {
 
 fn main() {
 
-    /*test file hashing (IT WORKS)
+    //test file hashing
     let path = Path::new("C:/Users/Morrighan/OneDrive/Desktop/FIM/files/file1.txt");
     match sha512_hash(path) {
         Ok(hash) => println!("SHA512 Hash: {hash}"),
         Err(e) => eprintln!("Error: {e}"),
     } 
-    */
+    
 
 
     println!("A) Collect New Baseline?");
@@ -58,16 +58,16 @@ fn main() {
         //Have user input the path of folder with the files to test
         //Testing path : C:\Users\Morrighan\Desktop\FIM Files\Files
 
-        let mut FileLocation = String::new();
+        let mut file_location = String::new();
 
         io::stdin()
-            .read_line(&mut FileLocation)
+            .read_line(&mut file_location)
             .expect("Failed to readline");
         
-        let FileLocation = FileLocation.trim();
+        let file_location = file_location.trim();
 
         
-        let path = Path::new(FileLocation);
+        let path = Path::new(file_location);
         
         
         //Check if path provided is a directory
