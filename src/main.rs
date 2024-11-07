@@ -59,7 +59,7 @@ fn main() {
         // File location for testing: C:/Users/mdayt/Documents/FIM Project/testfiles
         let path = Path::new(file_location);
 
-        println!("Input absolute folder path to store the baseline file");
+        println!("Store Baseline. Input absolute folder path to store the baseline file");
         // Input folder where the baseline.txt file is to be stored     
         let mut folder_path = String::new();
         io::stdin()
@@ -91,6 +91,11 @@ fn main() {
                             Ok(entry) => {
 
                                 let filepath = entry.path();
+
+                                // Skip if the entry is a directory or executable
+                                if filepath.is_dir() || filepath.extension() == Some("exe".as_ref()) {
+                                continue;
+                            }
                                 
                                 match sha512_hash(&filepath) {
         
